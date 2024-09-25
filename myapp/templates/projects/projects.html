@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<h1>Projects</h1>
+
+<!--Se incluye dentro del html un bucle for para que pueda acceder a los elementos de una lista, sino accede como string al parametro projects y lo escribe tal cual se mostraría en la consola. -->
+
+{% for project in projects %}
+
+<article class="card">
+    <a href="{% url 'project_details' project.id%}">
+    <h1>{{project.name}}</h1> </a><!-- ATENCIÓN! SE CREA UN H1 Y UN DIV PARA CADA PROYECTO DENTRO DEL BUCLE FOR DE PROYECTOS. --> 
+</article>
+
+
+{%endfor%}
+
+{% endblock %}

@@ -1,0 +1,80 @@
+INICIAR UN PROYECTO CON DJANGO
+
+1° Crear una carpeta con el nombre del proyecto
+2° En la consola ingresar con el siguiente comando para inicializar un proyecto en django. 
+comando = django-admin startproject NombreDelProyectoAInicializar
+3° Conocer las propiedades del archivo manage.py, consultando en la consola
+comando = python manage.py --help
+4° Identificar los 5 archivos creados automaticamente con la carpeta del proyecto, con el mismo nombre. Estos archivos se pueden leer en el 
+block de notas. 
+El archivo init, es para inicializar el proyecto. 
+El archivo asgi, 
+El archivo settings, contiene todas las configuraciones del proyecto base. 
+El archivo urls, contendrá todas las urls que va a utilizar el proyecto. 
+El archivo wsgi, es relativo al servidor que vamos a utilizar en el proyecto.
+5° Inicializamos la base de datos para este proyecto. En este caso usamos por defecto SQLite3 que viene por defecto instalado en Python. 
+comando: python manage.py migrate
+Se crea el archivo db.sqlite3
+6° Ejecuta el servidor, se inicia en el localhost. http://127.0.0.1:8000/
+comando: python manage.py runserver
+
+7° Paara migrar información en una base de datos SQLite3
+comando: python manage.py makemigrations 
+      o: python manage.py migrate
+para ver los cambios, se utiliza la aplicacion DB BROWSER FOR SQLITE, donde se grafican todos los datos de esta base de datos. La actualizamos
+utilizando F5. 
+
+8° El uso del SHELL. Se utiliza para guardar info en la base de datos. para ello seguimos los siguiente comandos
+comando: python manage.py shell
+>> from myapp.models import Project, Task
+>> p = Project(name="aplicación movil")
+>> p.save() 
+   Para listar los datos desde comandos de python (una vez activado el shell) 
+>> Project.objets.all() --->>> RESPUESTA= <QuerySet [<Project: Project object (1)>, <Project: Project object (2)>]
+   Para buscar un único objeto:
+>> Project.objects.get(id=número) --->>> RESPUESTA = <Project: Project object (1)>
+>> Project.objects.get(name="Aplicación movil") --->>> RESPUESTA = <Project: Project object (1)>
+
+9° Para agregar tareas a un proyecto (se utilizan dos tablas de la base de datos) 
+ Seguimos con el comando SHELL activado
+a) >> p = Project.objects.get(id=número) --->> Guardamos en la variable p, al proyecto al que vamos a relacionar la tarea. 
+b) ATENCIÓN! El comando se formula = variable.nombredelatabla/clase_set.all() Entonces tenemos: 
+   >> p.task_set().all() --->>> RESPUESTA = <QuerySet []> Indica una lista vacía, debido a que ninguna tarea existe para ese proyecto. 
+
+10° Crear tarea para un proyecto
+SHELL activado
+   ATENCIÓN! El comando se formula = variabledetarea.nombredelatabla/clase_set.create(atributo=valor) Entonces tenemos:
+>> p.task_set.create(title="Buscar por IDE") -->> Se crea en la base de datos de tareas.
+
+11°Buscar proyectos/tareas que cumplan con una condición
+SHELL activado
+	PROYECTOS
+>> p = Project.objects
+>> p.filter(name__starswith="aplicación") --->> RESPUESTA= <QuerySet [<Project: Project object (1)>, <Project: Project object (2)>]>
+	NOTA: FUNCIONA SIN CONSIDERAR LAS MAYÚSCULAS
+>> p.filter(name__starswith="desarrollo") --->> RESPUESTA= <QuerySet []>
+	TAREAS
+>> p = Project.task_set()
+>> p.filter(name__starswith="aplicación")
+
+12° Interactuar desde la url buscando y operando datos ¡¡¡ PARAMS!!!  
+Se crea un nuevo path en url de la aplicación, al cual se le va a inculir un adicional que permita acceder a una variable determinada dentro
+de una función. 
+
+13° Panel de administrador
+Se debe crear un usuario para que acceda a la página y pueda tener un panel de administrador del sitio. 
+PAra ello usamos el archivo de manage.py que creará el usuario y encriptará la contraseña. 
+comando : python manage.py createsuperuser
+Se agregan todas las caracteristicas de este usuario: usuario, mail, contraseña. 
+
+14° Se agregan tablas dentro del panel de administrador para que las pueda utilizar el admin del sitio. 
+PAra ello incorportamos los modelos de proyectos y tareas al archivo admin.py 
+
+15° UTILIZAR TEMPLATES O PLANTILLAS 
+Para incorporar código html a la web, se debe crear un archivo html que se importe al código de una determinada url. Para ello creamos el archivo dentro de la app y lo vinculamos a la view mediante un modulo llamado render (proviene de django.shorcuts)
+
+16° TEMPLATES ENGINE COURSE 
+
+17° JINJA (leer docuementación https://jinja.palletsprojects.com/en/3.1.x/)
+
+18° HERENCIAS  

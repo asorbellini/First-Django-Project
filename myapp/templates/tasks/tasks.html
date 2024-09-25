@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+<h1>Tasks</h1>
+
+<!--Comentario html -->
+{# nota: Comentario en JINJA, es el módulo de python que permite incluir código de sintaxis Python dentro de un archivo html#}
+{% for task in tareas %}
+<div>
+    <h1>{% if task.done == False %} &#9201 {% else %} &#9989 {% endif %} {{ task.title }}</h1>
+    <p>{{ task.description }}</p>
+    <p>Project: {{ task.project.name }}</p>
+    <button>Delete</button>
+    <button>✔ Done</button> <!--Simbol Unicode, este botón se relaciona con el archivo models donde se encuentra la clase de tareas, para ello tenemos que tener una propiedad que permita activar esto mediante un true o false. -->
+</div>
+{% endfor %}
+
+{% endblock %}
